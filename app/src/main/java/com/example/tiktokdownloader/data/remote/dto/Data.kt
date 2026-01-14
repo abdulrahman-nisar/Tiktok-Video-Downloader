@@ -1,0 +1,32 @@
+package com.example.tiktokdownloader.data.remote.dto
+
+data class Data(
+    val ai_dynamic_cover: String,
+    val anchors: List<Anchor>,
+    val anchors_extras: String,
+    val author: Author,
+    val collect_count: Int,
+    val comment_count: Int,
+    val commerce_info: CommerceInfo,
+    val commercial_video_info: String,
+    val cover: String,
+    val create_time: Int,
+    val digg_count: Int,
+    val download_count: Int,
+    val duration: Int,
+    val id: String,
+    val is_ad: Boolean,
+    val item_comment_settings: Int,
+    val mentioned_users: String,
+    val music: String,
+    val music_info: MusicInfo,
+    val origin_cover: String,
+    val play: String,
+    val play_count: Int,
+    val region: String,
+    val share_count: Int,
+    val size: Int,
+    val title: String,
+    val wm_size: Int,
+    val wmplay: String
+)
