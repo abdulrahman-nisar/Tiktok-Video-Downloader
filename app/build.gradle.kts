@@ -44,6 +44,7 @@ android {
 
 dependencies {
     val room_version = "2.8.4"
+    val lifecycle_version = "2.10.0"
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     annotationProcessor("androidx.room:room-compiler:$room_version")
@@ -52,6 +53,8 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.57.1")
     ksp("com.google.dagger:hilt-android-compiler:2.57.1")
     implementation("com.squareup.okhttp3:okhttp:5.3.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle_version}")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:${lifecycle_version}")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
