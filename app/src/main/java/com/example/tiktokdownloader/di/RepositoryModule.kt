@@ -15,6 +15,6 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindDownloadRepository(
-        downloadRepositoryImp: DownloadReposistoryImp
+        impl: DownloadReposistoryImp
     ): DownloadRepository
 }
