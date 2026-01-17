@@ -1,6 +1,7 @@
-package com.example.tiktokdownloader.ui.component
+package com.example.tiktokdownloader.ui.components
 
 import android.graphics.Color
+import androidx.annotation.OptIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -14,7 +15,7 @@ import androidx.media3.ui.PlayerView
 import com.example.tiktokdownloader.util.player.ExoPlayerManager
 
 
-@androidx.annotation.OptIn(UnstableApi::class)
+@OptIn(UnstableApi::class)
 @Composable
 fun VideoPlayer(videoPath: String) {
     val context = LocalContext.current
@@ -30,7 +31,6 @@ fun VideoPlayer(videoPath: String) {
                 this.player = player
                 useController = true
                 controllerAutoShow = true
-                resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
                 setShutterBackgroundColor(Color.BLACK)
                 setBackgroundColor(Color.BLACK)
             }

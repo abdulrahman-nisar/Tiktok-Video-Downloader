@@ -35,8 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.tiktokdownloader.ui.TiktokDownloaderViewModel
-import com.example.tiktokdownloader.ui.component.BottomNavigationItem
-import com.example.tiktokdownloader.ui.component.HistoryItem
+import com.example.tiktokdownloader.ui.components.BottomNavigationItem
+import com.example.tiktokdownloader.ui.components.HistoryItem
 import com.example.tiktokdownloader.util.byteArrayToBitmap
 
 

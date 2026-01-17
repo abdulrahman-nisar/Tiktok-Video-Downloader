@@ -1,4 +1,4 @@
-package com.example.tiktokdownloader.ui.component
+package com.example.tiktokdownloader.ui.components
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
