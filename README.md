@@ -1,4 +1,4 @@
-# TikTokDownloader
+# TikTok Video Downloader
 
 A modern Android app built with Kotlin and Jetpack Compose that demonstrates downloading and playing TikTok videos, local persistence, and a clean Android architecture using Hilt, Room, Retrofit, and Media3 (ExoPlayer).
 
@@ -46,6 +46,17 @@ Features (implemented or intended)
 - Network requests via Retrofit and OkHttp
 - Dependency injection with Hilt
 - Compose-based navigation and screens
+
+Demo
+----
+The repository already contains a demo video file. You can play it directly from the README using an HTML5 video element (GitHub will render the video if the file is in the repo and the renderer supports it).
+
+<video controls loop muted width="480">
+  <source src="docs/demo/demo.webm" type="video/webm">
+  Your browser does not support the video tag. Download the demo: [demo.webm](docs/demo/demo.webm)
+</video>
+
+Note: the demo file is stored at `docs/demo/demo.webm` in this repository.
 
 IMPORTANT: Respect TikTok's Terms of Service and copyright laws. This project is intended for educational purposes and local experimentation only. Do not use it to redistribute copyrighted material without permission.
 
