@@ -21,7 +21,7 @@ data class Data(
     val music: String,
     val music_info: MusicInfo,
     val origin_cover: String,
-    val play: String,
+    val play: String?,
     val play_count: Int,
     val region: String,
     val share_count: Int,

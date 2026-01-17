@@ -5,14 +5,21 @@ import com.example.tiktokdownloader.data.local.dao.DownloadHistoryDao
 import com.example.tiktokdownloader.data.local.entity.DownloadHistory
 import com.example.tiktokdownloader.data.remote.dto.Result
 import com.example.tiktokdownloader.data.remote.api.RetrofitInstance
-import com.example.tiktokdownloader.util.Manager.PictureManager
-import com.example.tiktokdownloader.util.Manager.VideoDownloaderManager
+import com.example.tiktokdownloader.util.manager.PictureManager
+import com.example.tiktokdownloader.util.manager.VideoDownloaderManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.sql.Timestamp
 import javax.inject.Inject
 
+/**
+ * Implementation of DownloadRepository interface.
+ * Handles downloading TikTok videos and managing download history.
+ * @param downloadHistoryDao DAO for accessing download history in the database.
+ * @param context Application context for file operations.
+ * @author Abdulrahman Nisar
+ */
 class DownloadReposistoryImp @Inject constructor(
   private val downloadHistoryDao: DownloadHistoryDao,
   @ApplicationContext private val context: Context
@@ -21,10 +28,12 @@ class DownloadReposistoryImp @Inject constructor(
         return withContext(Dispatchers.IO) {
             try {
                 val meta = RetrofitInstance.api.getVideoDataByUrl(url)
-                val data = meta.`data`
-                val title = data.title
-                val cover = data.cover
+                val data = meta.data
+                    ?: return@withContext Result(false, meta.msg ?: "API returned no data")
                 val play = data.play
+                    ?: return@withContext Result(false, meta.msg ?: "Missing video url (play)")
+                val title = data.title.orEmpty()
+                val cover = data.cover.orEmpty()
 
                 // create a safe file name
                 val safeName = title.takeIf { it.isNotBlank() } ?: "tiktok_video"
@@ -39,7 +48,7 @@ class DownloadReposistoryImp @Inject constructor(
                 val videoPath = videoResult.message // saved path
 
                 // download cover as bytes (do not save to disk)
-                val coverBytes: ByteArray? = if (!cover.isNullOrBlank()) {
+                val coverBytes: ByteArray? = if (cover.isNotBlank()) {
                     PictureManager.downloadCover(cover)
                 } else null
 
@@ -48,7 +57,7 @@ class DownloadReposistoryImp @Inject constructor(
                     id = 0,
                     tiktokUrl = url,
                     filePath = videoPath ?: "",
-                    downloadDate = Timestamp(System.currentTimeMillis()),
+                    downloadDate = Timestamp(System.currentTimeMillis()).time,
                     title = title,
                     cover = coverBytes
                 )
