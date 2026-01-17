@@ -2,8 +2,6 @@
 
 A modern Android app built with Kotlin and Jetpack Compose that demonstrates downloading and playing TikTok videos, local persistence, and a clean Android architecture using Hilt, Room, Retrofit, and Media3 (ExoPlayer).
 
-> This README was generated from the project's Gradle configuration (`app/build.gradle.kts`). Please review and adapt any usage or legal text (especially around downloading content) before publishing.
-
 Table of contents
 - Project summary
 - Project coordinates
@@ -148,13 +146,3 @@ Suggested next steps / small improvements
 - Add screenshots to `README.md` under a `Screenshots` section.
 - Add a sample `.env.example` and document any configuration if you introduce API keys or endpoints.
 - Add CI workflow to run lint and tests on pull requests.
-
-License
--------
-No license file detected. Add a license (MIT, Apache-2.0, etc.) to clarify reuse and contribution terms.
-
-Maintainers / Contact
----------------------
-Add an `AUTHORS` or `MAINTAINERS` file with contact details if this project is to be maintained collaboratively.
-
-Last generated: 2026-01-18
