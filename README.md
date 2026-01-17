@@ -1,206 +1,160 @@
-# tiktokdownloader
+# TikTokDownloader
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+A modern Android app built with Kotlin and Jetpack Compose that demonstrates downloading and playing TikTok videos, local persistence, and a clean Android architecture using Hilt, Room, Retrofit, and Media3 (ExoPlayer).
 
-A simple Android application to download TikTok videos (without watermark) for personal use and testing. This repository contains the Android app source, build instructions, usage notes, and a Demo section showing how to add and embed a demo video in the README.
+> This README was generated from the project's Gradle configuration (`app/build.gradle.kts`). Please review and adapt any usage or legal text (especially around downloading content) before publishing.
 
-> NOTE: Do not commit secrets or private API keys into this repository. See the Configuration section below for local setup.
-
-Table of Contents
+Table of contents
+- Project summary
+- Project coordinates
 - Features
-- Quick Start
-- Build & Run (Windows PowerShell)
-- Usage
-- Demo (how to include a demo video in README)
-  - Option A — YouTube (recommended)
-  - Option B — GIF inside repo (small demos)
-  - Option C — HTML5 video hosted (GitHub Pages or Release asset)
-- Configuration
+- Architecture overview
+- Major libraries and versions
+- Prerequisites
+- Quick start (development)
+- Build & run (Windows / PowerShell)
+- Testing
+- Code generation & KSP notes
 - Troubleshooting
 - Contributing
-- License
-- Authors
+- License & acknowledgements
 
 
-Features
-- Download TikTok videos using a URL input.
-- Option to strip watermark (project-specific behavior; use responsibly).
-- Simple UI for copying links and saving videos locally.
+Project summary
+---------------
+TikTokDownloader is an Android application sample that uses modern Android technologies:
+- UI: Jetpack Compose
+- DI: Hilt (with KSP)
+- Persistence: Room (with KSP)
+- Networking: Retrofit + OkHttp
+- Media playback: AndroidX Media3 (ExoPlayer)
+- Serialization: kotlinx.serialization
 
+Use this project as a reference for combining these technologies into a Compose-first Android application.
 
-Quick Start
+Project coordinates (from `app/build.gradle.kts`)
+- ApplicationId / Namespace: `com.example.tiktokdownloader`
+- compileSdk: 36
+- minSdk: 24
+- targetSdk: 36
+- versionCode: 1
+- versionName: `1.0`
+- JVM target: 11
 
-Requirements
-- Android Studio Flamingo or later (recommended)
-- JDK 11 or compatible
-- Android SDK (match compileSdk and targetSdk in project)
-- A connected Android device or emulator
+Features (implemented or intended)
+- Download TikTok videos and save metadata locally
+- View list of downloaded videos (Room-backed)
+- Play videos with Media3 ExoPlayer
+- Network requests via Retrofit and OkHttp
+- Dependency injection with Hilt
+- Compose-based navigation and screens
 
-Clone the repository (if you haven't already):
+IMPORTANT: Respect TikTok's Terms of Service and copyright laws. This project is intended for educational purposes and local experimentation only. Do not use it to redistribute copyrighted material without permission.
 
-```powershell
-git clone https://github.com/OWNER/REPO.git
-cd REPO
-```
+Architecture overview
+---------------------
+The app follows a conventional, layered approach:
+- UI layer: Jetpack Compose + ViewModel (lifecycle aware)
+- Domain layer: Use-cases or ViewModel-driven business logic
+- Data layer: Retrofit for remote API calls, Room for local storage
+- DI layer: Hilt modules provide network, database, and repository bindings
 
-(Replace the above URL with your repository remote.)
+Project layout (top-level)
+- `app/` - Android application module (source, resources, Gradle settings)
+- `gradle/` - Gradle version pins and wrapper
+- `build.gradle.kts`, `settings.gradle.kts` - root Gradle settings
 
-Build the debug APK with Gradle wrapper (Windows PowerShell):
+Major libraries & versions (extracted from build files)
+- Room: 2.8.4 (runtime + ksp/annotation processor)
+- Retrofit: 3.0.0 (+ converter-gson)
+- OkHttp: 4.12.0 (+ logging-interceptor)
+- Hilt: 2.57.1 (hilt-android + hilt ksp compiler)
+- Media3 (ExoPlayer): 1.2.1 (media3-exoplayer + media3-ui)
+- Lifecycle (ViewModel): 2.10.0
+- kotlinx-serialization-json: 1.7.3
+- Compose: managed via Compose BOM (platform)
 
-```powershell
-.\gradlew assembleDebug
-```
+Prerequisites
+-------------
+- Java JDK 11 (Project targets Java 11)
+- Android Studio (2022.2+ / Electric Eel or newer recommended)
+- Android SDK Platform 36 installed (compileSdk = 36)
+- Android device or emulator with API >= 24
+- Gradle wrapper is included; no global Gradle necessary
 
-Install the debug APK on a connected device/emulator:
+Quick start (first-time setup)
+1. Install JDK 11 and Android Studio.
+2. Open the project in Android Studio by selecting the repository root.
+3. Let Gradle sync. Android Studio may prompt to install missing SDK components for API 36 — accept the prompts.
+4. If you use command line, ensure `JAVA_HOME` points to a JDK 11 installation.
 
-```powershell
-.\gradlew installDebug
-# or install the built APK manually with adb:
-adb install -r app\build\outputs\apk\debug\app-debug.apk
-```
+Build & run (Windows / PowerShell)
 
-Run the app from Android Studio or launch the installed app on the device.
-
-
-Build & Run (additional commands)
-- Clean build: `.\gradlew clean`
-- Run unit tests: `.\gradlew test`
-- Run instrumentation tests: `.\gradlew connectedAndroidTest`
-
-
-Usage
-- Open the app on your device.
-- Paste a TikTok video URL into the input field.
-- Tap Download. The app will fetch the video and save it to local storage (or to the configured download folder).
-- Use the device's file manager or the app's built-in viewer to watch downloaded videos.
-
-
-Demo — how to include a demo video in this README
-
-Below are three safe and common ways to show a demo video in a GitHub README. Pick one (or more) depending on your needs. Important notes:
-- GitHub strips some HTML tags from README.md; the safest, most compatible options are a YouTube thumbnail that links to the video, or an animated GIF kept under a few MB.
-- Avoid committing large video files to the repository. Use GitHub Releases or GitHub Pages for hosting large assets.
-
-Option A — YouTube thumbnail (recommended)
-- Upload your demo video to YouTube (unlisted if you prefer private access).
-- Use the video ID in the snippet below. This displays a thumbnail and links to the YouTube player.
-
-Markdown snippet (replace VIDEO_ID):
-
-```markdown
-[![Watch the demo](https://img.youtube.com/vi/VIDEO_ID/maxresdefault.jpg)](https://youtu.be/VIDEO_ID)
-```
-
-If `maxresdefault.jpg` isn't available for your video, try `hqdefault.jpg` or `sddefault.jpg`:
-- https://img.youtube.com/vi/VIDEO_ID/hqdefault.jpg
-
-Pros: Lightweight, reliable, and plays in YouTube. Cons: requires YouTube hosting.
-
-
-Option B — Animated GIF stored in the repository
-- Create a short, optimized GIF (5–10s, low resolution/frame rate) and place it in `docs/demo.gif`.
-- GIFs show inline in the README, but they increase repo size. Keep GIF ≤ 3–5 MB.
-
-Place demo GIF at: `docs/demo.gif`
-
-Markdown snippet:
-
-```markdown
-![Demo](docs/demo.gif)
-```
-
-How to make a GIF from an MP4 using ffmpeg (example):
+Open PowerShell in the project root (`C:\Users\PMLS\StudioProjects\tiktokdownloader`) and run the following commands:
 
 ```powershell
-# Resize, reduce frame rate, and convert
-ffmpeg -i demo.mp4 -vf "scale=iw*0.6:-1" -r 12 -f gif demo.gif
-# Optional: optimize with gifsicle (install gifsicle separately)
-gifsicle -O3 --colors 256 demo.gif -o docs/demo.gif
+# Clean and assemble debug APK
+.\gradlew.bat clean assembleDebug
+
+# Install debug APK to a connected device or emulator
+.\gradlew.bat installDebug
+
+# Run connected instrumentation tests
+.\gradlew.bat connectedAndroidTest
 ```
 
-Pros: Instant inline playback. Cons: Larger repo size and limited quality.
+You can also open the project in Android Studio and use the Run button to launch on an emulator or device.
 
+Testing
+-------
+- Unit tests: `app/src/test/`
+- Instrumentation tests / UI tests: `app/src/androidTest/`
 
-Option C — HTML5 video hosted via GitHub Pages or Release asset (best for larger videos)
-- Recommended: Host the demo video on GitHub Pages or an external CDN and embed a preview or link in the README.
-- Embedding raw <video> tags in README.md may be sanitized by GitHub; linking to a GitHub Pages page that contains the <video> tag is the most reliable approach.
-
-Method 1 — Link to a GitHub Pages demo page (recommended for high-quality video):
-1. Create a `gh-pages` branch or enable GitHub Pages from `docs/` or the `gh-pages` branch.
-2. Put `demo.mp4` at `https://USERNAME.github.io/REPO/demo.mp4` or create a small `index.html` that embeds the video.
-3. In README, link or show a clickable screenshot that opens the GitHub Pages page.
-
-Markdown example (screenshot linking to demo page):
-
-```markdown
-[![Open demo page](docs/demo-thumbnail.png)](https://USERNAME.github.io/REPO/)
-```
-
-Method 2 — Use a Release asset and link to it (safer than committing large files to main branch):
-- Create a GitHub Release and upload `demo.mp4` as an asset.
-- Link to the release asset or show a thumbnail.
-
-Markdown example (linking to a release asset):
-
-```markdown
-[Download demo video (release asset)](https://github.com/OWNER/REPO/releases/download/v1.0.0/demo.mp4)
-```
-
-Create a release from the command line with the GitHub CLI (`gh`) (PowerShell):
+Run tests from command line:
 
 ```powershell
-# create a release and upload demo.mp4
-gh release create v1.0.0 "path\to\demo.mp4" --title "Demo v1.0.0" --notes "Demo video"
+# Unit tests
+.\gradlew.bat test
+
+# Instrumentation tests
+.\gradlew.bat connectedAndroidTest
 ```
 
-Pros: Can host high-quality video. Cons: Slightly more setup; README may not autoplay/embed video directly.
+Code generation & KSP notes
+--------------------------
+- This project uses KSP for Room and Hilt code generation; generated sources are under `app/build/generated/` and `app/build/ksp/`.
+- If you rename packages or models and see KSP/annotation errors, run a clean build: `.\gradlew.bat clean build` and consider invalidating caches in Android Studio.
 
+Common troubleshooting
+----------------------
+- Gradle sync fails (Missing compileSdk or SDK components): open SDK Manager and install API 36 or accept prompts in Android Studio.
+- Hilt errors (missing generated components): make sure the KSP compiler dependencies are present in `app/build.gradle.kts` and rebuild the project.
+- Room migration errors: during development you can opt for destructive migrations, but create proper migration logic before production release.
+- JVM crashes (hs_err_pid*.log): logs may indicate native issues, check the stacktrace and ensure you use compatible JDK/NDK versions.
 
-Where to add demo files in this project
-- Small GIF preview: add `docs/demo.gif` and commit (for a small preview only).
-- Thumbnails/screenshots: add `docs/demo-thumbnail.png`.
-- Large MP4: do not commit to main branch; upload as a Release asset or host on GitHub Pages / external CDN.
-
-
-Configuration
-- If the project requires API keys or special gradle properties, put them in `local.properties` or `gradle.properties` on your machine and do not commit them.
-- Example (in `local.properties` — NOT in VCS):
-
-```
-# local.properties
-sdk.dir = C:\Users\<username>\AppData\Local\Android\sdk
-MY_PRIVATE_KEY = your_key_here
-```
-
-Add `local.properties` to `.gitignore` (Android projects typically already do this).
-
-
-Troubleshooting
-- Gradle cache issues: `.\gradlew clean` then rebuild.
-- If the device doesn't install the APK: ensure USB debugging is enabled and `adb devices` shows the device.
-- Common Java/Kotlin issues: check project SDK and Gradle plugin versions in `build.gradle.kts`.
-
+Security & legal considerations
+------------------------------
+- Do not hardcode keys or credentials in source. Use secure storage or CI secrets for any API keys.
+- Downloading videos from TikTok or other platforms may violate terms of service or copyright. Use this app responsibly and legally.
 
 Contributing
-- Open issues for bugs or feature requests.
-- Fork the repo, create a branch, implement changes, and submit a PR.
-- Format code consistently and add brief tests where applicable.
+------------
+1. Fork and create a feature branch.
+2. Run unit and instrumentation tests locally.
+3. Open a Pull Request with clear description and testing notes.
 
+Suggested next steps / small improvements
+- Add a `LICENSE` file to clarify project licensing.
+- Add screenshots to `README.md` under a `Screenshots` section.
+- Add a sample `.env.example` and document any configuration if you introduce API keys or endpoints.
+- Add CI workflow to run lint and tests on pull requests.
 
 License
-This project uses the MIT License — see `LICENSE` for details.
+-------
+No license file detected. Add a license (MIT, Apache-2.0, etc.) to clarify reuse and contribution terms.
 
+Maintainers / Contact
+---------------------
+Add an `AUTHORS` or `MAINTAINERS` file with contact details if this project is to be maintained collaboratively.
 
-Authors
-- Maintainer: Your Name (replace with actual maintainer info)
-
-
-Requirements coverage
-- Create fully detailed README: Done
-- Add place where a demo video can be added: Done (docs/ directory and Release/GitHub Pages guidance)
-- Tell how to add video in README: Done (YouTube/GIF/Pages/Release instructions + code snippets)
-
-
-Next steps (optional)
-- Tell me which demo option you prefer and I will add a sample thumbnail or a small GIF under `docs/` for you.
-- I can also add a short `CONTRIBUTING.md` or a `docs/` index page for GitHub Pages hosting if you want to host the demo there.
+Last generated: 2026-01-18
