@@ -49,16 +49,53 @@ Features (implemented or intended)
 
 Demo
 ----
-The repository already contains a demo video file. You can play it directly from the README using an HTML5 video element (GitHub will render the video if the file is in the repo and the renderer supports it).
+Below is an inline video gallery showing every demo file currently in `docs/demo/`. GitHub's Markdown renderer supports plain HTML video tags for files stored in the repo, but note that JavaScript is stripped and interactive playlist scripts will not run inside README.md. For a richer playlist experience, open `docs/demo_player.html` in your browser (included in the repo).
 
-<video controls loop muted width="480">
-  <source src="docs/demo/demo.webm" type="video/webm">
-  Your browser does not support the video tag. Download the demo: [demo.webm](docs/demo/demo.webm)
-</video>
+<!-- Video gallery: one <video> block per file in docs/demo/ -->
 
-Note: the demo file is stored at `docs/demo/demo.webm` in this repository.
+<figure>
+  <figcaption><strong>demo.webm</strong></figcaption>
+  <video controls width="480">
+    <source src="docs/demo/demo.webm" type="video/webm">
+    Your browser does not support the video tag. Download: [docs/demo/demo.webm](docs/demo/demo.webm)
+  </video>
+</figure>
+
+If you add more videos to `docs/demo/`, add another similar `<figure>` block pointing to the new file, for example:
+
+```html
+<figure>
+  <figcaption><strong>demo2.mp4</strong></figcaption>
+  <video controls width="480">
+    <source src="docs/demo/demo2.mp4" type="video/mp4">
+    Your browser does not support the video tag. Download: [docs/demo/demo2.mp4](docs/demo/demo2.mp4)
+  </video>
+</figure>
+```
+
+Recommended: use the included playlist page (`docs/demo_player.html`) to browse and play all demo videos from a single UI. Open it locally or serve the repo on a local webserver (see instructions below).
+
+Local viewing (recommended)
+
+```powershell
+# Serve the repo on localhost:8000 and open the playlist page in a browser
+python -m http.server 8000
+# Open http://localhost:8000/docs/demo_player.html in your browser
+```
+
+Note: GitHub's markdown renderer may not display video elements for all formats or may not autoplay—use the playlist HTML for local viewing if inline video doesn't work.
 
 IMPORTANT: Respect TikTok's Terms of Service and copyright laws. This project is intended for educational purposes and local experimentation only. Do not use it to redistribute copyrighted material without permission.
+
+### Hosted demo (GitHub Pages)
+
+If you enable GitHub Pages for this repository (GitHub can serve the `docs/` folder), the demo player will be available at:
+
+```
+https://<your-github-username>.github.io/<repo-name>/demo_player.html
+```
+
+To enable automatic deployment on push to `main`, this repository includes a GitHub Actions workflow at `.github/workflows/deploy-pages.yml` which publishes the `docs/` folder to GitHub Pages using the repository's GITHUB_TOKEN. After merging to `main`, wait a few minutes and open the URL above (replace placeholders) to view the hosted demo player.
 
 Architecture overview
 ---------------------

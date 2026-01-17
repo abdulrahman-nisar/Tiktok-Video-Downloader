@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TikTokDownloader — Demo Player</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Roboto, "Segoe UI", sans-serif; padding: 20px; }
+    .player { max-width: 720px; margin-bottom: 16px; }
+    .playlist { margin-top: 8px; }
+    .playlist button { margin-right: 8px; margin-bottom:8px; }
+  </style>
+</head>
+<body>
+  <h1>TikTokDownloader — Demo Player</h1>
+  <p>This standalone HTML page provides a simple playlist UI to play all demo videos placed in <code>docs/demo/</code>. Open this file in a browser (double-click or <kbd>Ctrl+O</kbd>) from the repository root.</p>
+
+  <video id="mainPlayer" class="player" controls width="720">
+    <source id="mainSource" src="docs/demo/demo.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="playlist" id="playlist">
+    <!-- Buttons for each demo file will be placed here -->
+  </div>
+
+  <script>
+    // List of demo files. Add more files here if you add them to docs/demo/
+    const videos = [
+      { label: 'demo.webm', src: 'docs/demo/demo.webm', type: 'video/webm' }
+      // Example: { label: 'demo2.mp4', src: 'docs/demo/demo2.mp4', type: 'video/mp4' }
+    ];
+
+    const playlistEl = document.getElementById('playlist');
+    const mainPlayer = document.getElementById('mainPlayer');
+    const mainSource = document.getElementById('mainSource');
+
+    function playVideo(video) {
+      mainSource.src = video.src;
+      mainSource.type = video.type || '';
+      mainPlayer.load();
+      mainPlayer.play().catch(()=>{});
+    }
+
+    // Build playlist buttons
+    videos.forEach(v => {
+      const btn = document.createElement('button');
+      btn.textContent = v.label;
+      btn.onclick = () => playVideo(v);
+      playlistEl.appendChild(btn);
+    });
+  </script>
+</body>
+</html>
